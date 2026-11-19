@@ -34,6 +34,12 @@ def app(env, start_response):
         start_response(status, headers)
         return [json.dumps(value).encode()]
 
+    if env["PATH_INFO"] == "/":
+        start_response("302 Found", [
+            ("Location", "https://zfcorp.github.io/ZurichInstafinDocsuploadedBy/"),
+            ("Cache-Control", "no-store"),
+        ])
+        return [b""]
     if env["PATH_INFO"] != "/lookup":
         return reply("404 Not Found", {"error": "Unknown endpoint."})
     if not origin or env.get("HTTP_ORIGIN") != origin:

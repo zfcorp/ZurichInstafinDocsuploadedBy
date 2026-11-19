@@ -11,6 +11,8 @@ Deploy the static interface on GitHub Pages and the Python API on Render. The AP
 5. In GitHub Settings → Pages choose Deploy from a branch, main, /docs, then Save. Open the published URL after deployment completes.
 6. Enter the report access key and a known training client or account ID. Compare the preview against Instafin, then select Download Excel.
 
+Opening the API service root redirects to the GitHub Pages interface. The API endpoint used by the interface is `/lookup`.
+
 | API service variable | Value |
 | --- | --- |
 | INSTAFIN_USERNAME | Your training API username |
