@@ -2,7 +2,9 @@ const byId = id => document.getElementById(id);
 const pageSize = 25;
 let rows = [], workbook = "", page = 0;
 const keyInput = byId("key");
+const keySettings = byId("keySettings");
 keyInput.value = sessionStorage.getItem("reportAccessKey") || "";
+keySettings.open = !keyInput.value;
 
 function render() {
   const body = byId("results").tBodies[0];
@@ -44,13 +46,17 @@ byId("lookup").onsubmit = async event => {
   try {
     const accessKey = keyInput.value.trim();
     sessionStorage.setItem("reportAccessKey", accessKey);
+    keySettings.open = false;
     const response = await fetch(API_ORIGIN.replace(/\/$/, "") + "/lookup", {
       method: "POST", cache: "no-store", redirect: "error",
       headers: {"Content-Type": "application/json", "Authorization": "Bearer " + accessKey},
       body: JSON.stringify({clientID, accountID})
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || `Lookup failed (HTTP ${response.status}).`);
+    if (!response.ok) {
+      if (response.status === 401) keySettings.open = true;
+      throw new Error(data.error || `Lookup failed (HTTP ${response.status}).`);
+    }
     rows = data.rows; workbook = data.workbook;
     status.textContent = `${rows.length} uploaded file(s) for client ${data.client}.`;
     render();
