@@ -1,6 +1,6 @@
-# Instafin Training document lookup
+# Instafin document lookup
 
-Deploy the static interface on GitHub Pages and the Python API on Render. The API calls the Zurich training instance from the supplied script. The browser receives report data and a downloadable workbook. Credentials live on the API service. Colab Secrets are available only inside Colab.
+Deploy the static interface on GitHub Pages and the Python API on Render. The API calls the live Zurich Instafin instance. The browser receives report data and a downloadable workbook. Credentials live on the API service. Colab Secrets are available only inside Colab.
 
 ## Deploy
 
@@ -9,18 +9,18 @@ Deploy the static interface on GitHub Pages and the Python API on Render. The AP
 3. In the service environment settings add the four variables below. Deploy the service and copy its HTTPS URL.
 4. Edit docs/config.js on GitHub. Set API_ORIGIN to the service URL, for example `const API_ORIGIN = "https://your-service.onrender.com";`. Commit to main.
 5. In GitHub Settings → Pages choose Deploy from a branch, main, /docs, then Save. Open the published URL after deployment completes.
-6. Enter the report access key and a known training client or account ID. Compare the preview against Instafin, then select Download Excel.
+6. Enter the report access key and a known client or account ID. Compare the preview against Instafin, then select Download Excel.
 
 Opening the API service root redirects to the GitHub Pages interface. The API endpoint used by the interface is `/lookup`.
 
 | API service variable | Value |
 | --- | --- |
-| INSTAFIN_USERNAME | Your training API username |
-| INSTAFIN_PASSWORD | Your training API password |
+| INSTAFIN_USERNAME | Your live API username |
+| INSTAFIN_PASSWORD | Your live API password |
 | APP_ACCESS_KEY | A new long random access key. Generate one locally with python -c "import secrets; print(secrets.token_urlsafe(32))". Give it only to authorized report operators. |
 | PAGES_ORIGIN | The exact site origin, e.g. https://YOUR-OWNER.github.io, without the repository path. Use the custom origin if you configure a custom domain. |
 
-Anyone with the report key can query records visible to the configured API user. Use a read-only account with the intended training scope. Keep secrets out of Git, config.js, and GitHub Pages. Rotate the report key in the API service settings when access changes.
+Anyone with the report key can query records visible to the configured API user. Use a read-only account with the intended live-data scope. Keep secrets out of Git, config.js, and GitHub Pages. Rotate the report key in the API service settings when access changes.
 
 ## Report behavior
 

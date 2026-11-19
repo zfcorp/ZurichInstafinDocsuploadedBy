@@ -1,7 +1,7 @@
 from datetime import datetime
 import requests
 
-BASE_URL = "https://zurichtraining.instafin.info/submit/"
+BASE_URL = "https://zurichfinancecorp.instafin.com/submit/"
 HEADERS = [
     "clientID", "accountID", "ID", "isActive", "fileID",
     "fileName", "uploadedAt", "UploadTime", "uploadedByUser", "uploadedByUserName"
@@ -80,7 +80,7 @@ def find_client_from_account(session, account_id):
 
     raise RuntimeError(
         f"No exact match for {account_id} in SearchAllAccounts/ExportAllAccounts. "
-        "Verify the account exists in the TRAINING API and that filter.accounts "
+        "Verify the account exists in the configured Instafin API and that filter.accounts "
         "returns records for your API credentials."
     )
 
