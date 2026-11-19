@@ -1,6 +1,8 @@
 const byId = id => document.getElementById(id);
 const pageSize = 25;
 let rows = [], workbook = "", page = 0;
+const keyInput = byId("key");
+keyInput.value = sessionStorage.getItem("reportAccessKey") || "";
 
 function render() {
   const body = byId("results").tBodies[0];
@@ -40,9 +42,11 @@ byId("lookup").onsubmit = async event => {
   controls.forEach(control => control.disabled = true);
   status.textContent = "Looking up uploaded documents…";
   try {
+    const accessKey = keyInput.value.trim();
+    sessionStorage.setItem("reportAccessKey", accessKey);
     const response = await fetch(API_ORIGIN.replace(/\/$/, "") + "/lookup", {
       method: "POST", cache: "no-store", redirect: "error",
-      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + byId("key").value.trim()},
+      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + accessKey},
       body: JSON.stringify({clientID, accountID})
     });
     const data = await response.json();
